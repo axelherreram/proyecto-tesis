@@ -34,6 +34,7 @@ const login = async (req, res) => {
     res.status(200).json({ 
       message: 'Login successful', 
       email: user.email ,
+      phone: user.phoneNumber,
       token
     });
   } catch (error) {

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const initializetables = require('./config/initializetables');
 require('dotenv').config();
 
 const app = express();
@@ -9,15 +10,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Bienvenido a la API de Proyecto Tesis');
-});
-
-
-// Sincronizar la base de datos
-sequelize.sync({ force: false }) 
-  .then(() => {
+// Sincronizar la base de datos y inicializar roles
+sequelize.sync({ alter: true })
+  .then(async () => {
     console.log('Base de datos sincronizada');
+    await initializetables();
     app.listen(3000, () => {
       console.log('Servidor ejecutándose en el puerto 3000');
     });

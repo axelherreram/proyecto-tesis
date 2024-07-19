@@ -1,8 +1,8 @@
 {
   "name": "proyectotesis",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Gestor de proyectos",
+  "main": "app.js",
   "scripts": {
     "dev": "node --watch app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
