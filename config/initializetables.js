@@ -11,7 +11,7 @@ const initializetables = async () => {
 
     await Role.findOrCreate({ where: { role: 'admin' } });
     await Role.findOrCreate({ where: { role: 'user' } });
-    console.log('Roles initialized');
+    console.log('tablas inicializadas');
   } catch (error) {
     console.error('Error initializing roles:', error);
   }
