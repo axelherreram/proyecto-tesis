@@ -3,11 +3,16 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, roleid, yearid } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashedPassword });
+    const user = await User.create({ 
+      email, 
+      password: hashedPassword,
+      roleid,
+      yearid
+    });
 
     res.status(201).json({ message: 'User created successfully', user });
   } catch (error) {
@@ -29,7 +34,7 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
 
     res.status(200).json({ 
       message: 'Login successful', 
@@ -49,7 +54,7 @@ const logout = (req, res) => {
 
 
 const updateUser = async (req, res) => {
-  const { email, newEmail, newPassword } = req.body;
+  const { email, newEmail, newPassword, newRoleId, newYearId } = req.body;
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -62,6 +67,12 @@ const updateUser = async (req, res) => {
     }
     if (newPassword) {
       user.password = await bcrypt.hash(newPassword, 10);
+    }
+    if (newRoleId) {
+      user.roleid = newRoleId;
+    }
+    if (newYearId) {
+      user.yearid = newYearId;
     }
 
     await user.save();

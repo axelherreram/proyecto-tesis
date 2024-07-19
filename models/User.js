@@ -5,26 +5,26 @@ const Year = require('./year');
 
 
 const User = sequelize.define('User', {
-  id: {
+  userid: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   email: {
     type: DataTypes.STRING(80),
-    allowNull: false,
+    allowNull: false, 
     unique: true
   },
   password: {
     type: DataTypes.STRING(200),
     allowNull: false
   },
-  roleId: {
+  roleid: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: Role,
-      key: 'roleId'
+      key: 'roleid'
     }
   },
   yearid: {
@@ -38,10 +38,11 @@ const User = sequelize.define('User', {
 }, {
   tableName: 'users'
 });
+// Relacion con la tabla de roles
+Role.hasMany(User, { foreignKey: 'roleid' });
+User.belongsTo(Role, { foreignKey: 'roleid' });
 
-Role.hasMany(User, { foreignKey: 'roleId' });
-User.belongsTo(Role, { foreignKey: 'roleId' });
-
+// relacion con la tabla de años
 Year.hasMany(User, { foreignKey: 'yearid' });
 User.belongsTo(Role, { foreignKey: 'yearid' });
 

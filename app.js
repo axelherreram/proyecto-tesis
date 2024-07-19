@@ -14,7 +14,7 @@ app.use('/auth', authRoutes);
 sequelize.sync({ alter: true })
   .then(async () => {
     console.log('Base de datos sincronizada');
-    await initializetables();
+    await initializetables(); 
     app.listen(3000, () => {
       console.log('Servidor ejecutándose en el puerto 3000');
     });
