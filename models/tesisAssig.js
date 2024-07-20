@@ -13,7 +13,7 @@ const tesisAssig = sequelize.define(
     userid: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
+      references: {   
         model: User,
         key: "userid", 
       }, 

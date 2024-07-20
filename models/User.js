@@ -18,7 +18,7 @@ const User = sequelize.define('User', {
   password: {
     type: DataTypes.STRING(200),
     allowNull: false
-  },
+  }, 
   roleid: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -38,6 +38,7 @@ const User = sequelize.define('User', {
 }, {
   tableName: 'users'
 });
+
 // Relacion con la tabla de roles
 Role.hasMany(User, { foreignKey: 'roleid' });
 User.belongsTo(Role, { foreignKey: 'roleid' });
