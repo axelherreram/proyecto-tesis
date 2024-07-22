@@ -18,6 +18,10 @@ const Task = sequelize.define(
         key: "tesisid",
       },
     },
+    titleTask: {
+      type: DataTypes.STRING(200),
+      allowNull: false,
+    },
     state: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
