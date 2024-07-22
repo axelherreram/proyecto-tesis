@@ -6,7 +6,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const initializetables = require('./config/initializetables');
 const tesisAssigRoutes = require('./routes/tesisAssigRoutes');
 const fileRoutes = require('./routes/fileRoutes');
-
+const qualificationRoutes = require('./routes/qualificationRoutes');
 
 require('dotenv').config();
 
@@ -17,7 +17,7 @@ app.use('/auth', authRoutes);
 app.use('/api', taskRoutes);
 app.use('/api', tesisAssigRoutes);
 app.use('/api', fileRoutes);
-
+app.use('/api', qualificationRoutes);
 
 
 sequelize.sync({ alter: true }) // , force: true  // force: true drops the table if it already exists
