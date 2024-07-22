@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 const initializetables = require('./config/initializetables');
 require('dotenv').config();
 
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use('/auth', authRoutes);
+app.use('/api', taskRoutes);
 
 sequelize.sync({ alter: true, force: true  })
   .then(async () => {
