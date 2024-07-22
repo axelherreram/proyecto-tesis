@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
-  const { email, password, roleid, yearid } = req.body;
+  const { email, password, roleid, yearid, profilePicture } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -11,7 +11,8 @@ const register = async (req, res) => {
       email, 
       password: hashedPassword,
       roleid,
-      yearid
+      yearid,
+      profilePicture
     });
 
     res.status(201).json({ message: 'User created successfully', user });
