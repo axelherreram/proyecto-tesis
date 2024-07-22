@@ -40,6 +40,7 @@ const Task = sequelize.define(
   }
 );
 
+
 // Relación correcta entre las tablas
 Task.belongsTo(TesisAssig, { foreignKey: 'tesisid' });
 TesisAssig.hasMany(Task, { foreignKey: 'tesisid' });

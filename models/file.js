@@ -13,10 +13,9 @@ const File = sequelize.define(
     fileDirectory: {
       type: DataTypes.STRING(20),
       allowNull: false,
-      unique: true,
     },
     taskid: {
-      type: DataTypes.INTEGER, // Cambiado a INTEGER para coincidir con Task
+      type: DataTypes.INTEGER, 
       allowNull: false,
       references: {
         model: Task,
@@ -30,7 +29,8 @@ const File = sequelize.define(
 );
 
 // Relacion con la tabla de tareas
-File.belongsTo(File, { foreignKey: 'taskid' });
+
+File.belongsTo(Task, { foreignKey: 'taskid' });
 Task.hasMany(File, { foreignKey: 'taskid' });
 
 module.exports = File;

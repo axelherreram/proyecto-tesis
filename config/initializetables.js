@@ -3,6 +3,7 @@ const Year = require('../models/year');
 const TesisAssig = require('../models/tesisAssig');
 const Task = require('../models/task');
 const File = require('../models/file')
+const Qualification = require('../models/qualification')
 
 // Inicializar tables in la BD
 const initializetables = async () => {
