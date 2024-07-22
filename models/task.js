@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize"); 
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const TesisAssig = require("./tesisAssig");
 
@@ -14,24 +14,24 @@ const Task = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: TesisAssig, 
+        model: TesisAssig,
         key: "tesisid",
       },
     },
     state: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
     startDate: {
-      type: DataTypes.DATE, 
+      type: DataTypes.DATE,
       allowNull: false,
-    },    
+    },
     endDate: {
       type: DataTypes.DATE,
       allowNull: false,
     },
     weight: {
-      type: DataTypes.DECIMAL(4,2),
+      type: DataTypes.DECIMAL(4, 2),
       allowNull: false,
     },
   },
@@ -40,8 +40,7 @@ const Task = sequelize.define(
   }
 );
 
-
-// Relación correcta entre las tablas
+// Definir la relación entre Task y TesisAssig
 Task.belongsTo(TesisAssig, { foreignKey: 'tesisid' });
 TesisAssig.hasMany(Task, { foreignKey: 'tesisid' });
 

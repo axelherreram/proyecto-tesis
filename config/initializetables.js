@@ -4,6 +4,7 @@ const TesisAssig = require('../models/tesisAssig');
 const Task = require('../models/task');
 const File = require('../models/file')
 const Qualification = require('../models/qualification')
+const notification = require('../models/notificacion')
 
 // Inicializar tables in la BD
 const initializetables = async () => {

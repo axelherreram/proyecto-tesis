@@ -34,7 +34,12 @@ const User = sequelize.define('User', {
       model: Year,
       key: 'yearid'
     }
-  }
+  },
+  profilePicture: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+
 }, {
   tableName: 'users'
 });

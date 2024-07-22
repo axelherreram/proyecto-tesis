@@ -46,4 +46,4 @@ User.hasMany(notificacion, { foreignKey: "userid" });
 notificacion.belongsTo(Task, { foreignKey: "taskid" });
 Task.hasMany(notificacion, { foreignKey: "taskid" });
 
-module.exports = File;
+module.exports = notificacion;

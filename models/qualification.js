@@ -54,4 +54,4 @@ User.hasMany(qualification, { foreignKey: "userid" });
 qualification.belongsTo(Task, { foreignKey: "taskid" });
 Task.hasMany(qualification, { foreignKey: "taskid" });
 
-module.exports = File;
+module.exports = qualification;

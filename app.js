@@ -10,8 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 
-// Sincronizar la base de datos y inicializar roles
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: true, force: true  })
   .then(async () => {
     console.log('Base de datos sincronizada');
     await initializetables(); 
@@ -21,4 +20,4 @@ sequelize.sync({ alter: true })
   })
   .catch(error => {
     console.log('Error al conectar con la base de datos', error);
-  });
+  }); 
