@@ -18,7 +18,7 @@ app.use('/api', tesisAssigRoutes);
 app.use('/api', fileRoutes);
 
 
-sequelize.sync({ alter: true }) // , force: true  // force: true drops the table if it already exists
+sequelize.sync({ alter: true }) // , force: true  eliminar las tablas si existen
   .then(async () => {
     console.log('Base de datos sincronizada');
     await initializetables(); 

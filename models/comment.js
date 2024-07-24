@@ -4,10 +4,10 @@ const Task = require("./task");
 
 const User = require("./User");
 
-const notificacion = sequelize.define(
-  "notificacion",
+const comment = sequelize.define(
+  "comment",
   {
-    notificationid: {
+    commentid: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -21,29 +21,33 @@ const notificacion = sequelize.define(
       },
     },
     userid: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: User,
-        key: "userid",
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: User,
+          key: "userid",
+        },
       },
-    },
-    textNotification: {
+    comments: {
       type: DataTypes.STRING(400),
+      allowNull: false,
+    },
+    dateQualification: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
   },
   {
-    tableName: "notificacion",
+    tableName: "comment",
   }
 );
 // Relacion con la tabla de usuarios
-notificacion.belongsTo(User, { foreignKey: "userid" });
-User.hasMany(notificacion, { foreignKey: "userid" });
+comment.belongsTo(User, { foreignKey: "userid" });
+User.hasMany(comment, { foreignKey: "userid" });
 
 // Relacion con la tabla de tareas
 
-notificacion.belongsTo(Task, { foreignKey: "taskid" });
-Task.hasMany(notificacion, { foreignKey: "taskid" });
+comment.belongsTo(Task, { foreignKey: "taskid" });
+Task.hasMany(comment, { foreignKey: "taskid" });
 
-module.exports = notificacion;
+module.exports = comment;
