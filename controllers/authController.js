@@ -1,18 +1,32 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/profile_pictures'); 
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 const register = async (req, res) => {
-  const { email, password, roleid, yearid, profilePicture } = req.body;
+  const { email, password, roleid, yearid } = req.body;
+  const profileImage = req.file ? req.file.path : null;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ 
       email, 
       password: hashedPassword,
+      profileImage,
       roleid,
-      yearid,
-      profilePicture
+      yearid
     });
 
     res.status(201).json({ message: 'User created successfully', user });
@@ -35,12 +49,12 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+    const token = jwt.sign({ userId: user.userid }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({ 
       message: 'Login successful', 
-      email: user.email ,
-      phone: user.phoneNumber,
+      email: user.email,
+      profileImage: user.profileImage,
       token
     });
   } catch (error) {
@@ -48,14 +62,13 @@ const login = async (req, res) => {
   }
 };
 
-
 const logout = (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 };
 
-
 const updateUser = async (req, res) => {
   const { email, newEmail, newPassword, newRoleId, newYearId } = req.body;
+  const newProfileImage = req.file ? req.file.path : null;
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -75,6 +88,9 @@ const updateUser = async (req, res) => {
     if (newYearId) {
       user.yearid = newYearId;
     }
+    if (newProfileImage) {
+      user.profileImage = newProfileImage;
+    }
 
     await user.save();
 
@@ -84,4 +100,4 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout, updateUser };
+module.exports = { register, login, logout, updateUser, upload };
