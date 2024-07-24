@@ -6,7 +6,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/profile_pictures'); 
+    cb(null, 'uploads/profile_pictures');
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -17,14 +17,14 @@ const upload = multer({ storage: storage });
 
 const register = async (req, res) => {
   const { email, password, roleid, yearid } = req.body;
-  const profileImage = req.file ? req.file.path : null;
+  const profilePicture = req.file ? req.file.path : null;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ 
-      email, 
+    const user = await User.create({
+      email,
       password: hashedPassword,
-      profileImage,
+      profilePicture,
       roleid,
       yearid
     });
@@ -51,10 +51,10 @@ const login = async (req, res) => {
 
     const token = jwt.sign({ userId: user.userid }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).json({ 
-      message: 'Login successful', 
+    res.status(200).json({
+      message: 'Login successful',
       email: user.email,
-      profileImage: user.profileImage,
+      profilePicture: user.profilePicture,
       token
     });
   } catch (error) {
@@ -68,7 +68,7 @@ const logout = (req, res) => {
 
 const updateUser = async (req, res) => {
   const { email, newEmail, newPassword, newRoleId, newYearId } = req.body;
-  const newProfileImage = req.file ? req.file.path : null;
+  const newProfilePicture = req.file ? req.file.path : null;
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -88,8 +88,8 @@ const updateUser = async (req, res) => {
     if (newYearId) {
       user.yearid = newYearId;
     }
-    if (newProfileImage) {
-      user.profileImage = newProfileImage;
+    if (newProfilePicture) {
+      user.profilePicture = newProfilePicture;
     }
 
     await user.save();
