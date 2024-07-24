@@ -6,10 +6,17 @@ const taskRoutes = require('./routes/taskRoutes');
 const initializetables = require('./config/initializetables');
 const tesisAssigRoutes = require('./routes/tesisAssigRoutes');
 const fileRoutes = require('./routes/fileRoutes');
+const cors = require('cors');
 
 require('dotenv').config();
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3001',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+}));
 
 app.use(bodyParser.json());
 app.use('/auth', authRoutes);
