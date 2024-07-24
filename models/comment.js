@@ -32,7 +32,7 @@ const comment = sequelize.define(
       type: DataTypes.STRING(400),
       allowNull: false,
     },
-    dateQualification: {
+    dateComments: {
       type: DataTypes.DATE,
       allowNull: false,
     },

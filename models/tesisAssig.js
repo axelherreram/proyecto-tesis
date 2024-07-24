@@ -24,7 +24,7 @@ const tesisAssig = sequelize.define(
     },
     finalGrade: {
       type: DataTypes.DECIMAL(4, 2),
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
