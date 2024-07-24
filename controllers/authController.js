@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -76,6 +77,8 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    const oldProfilePicture = user.profilePicture;
+
     if (newEmail) {
       user.email = newEmail;
     }
@@ -92,7 +95,19 @@ const updateUser = async (req, res) => {
       user.profilePicture = newProfilePicture;
     }
 
+
     await user.save();
+
+    // Borrar la imagen de perfil anterior
+    if (newProfilePicture && oldProfilePicture) {
+      fs.unlink(oldProfilePicture, (err) => {
+        if (err) {
+          console.error('Error deleting old profile picture:', err);
+        } else {
+          console.log('Old profile picture deleted:', oldProfilePicture);
+        }
+      });
+    }
 
     res.status(200).json({ message: 'User updated successfully', user });
   } catch (error) {
