@@ -17,13 +17,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const register = async (req, res) => {
-  const { email, password, roleid, yearid } = req.body;
+  const { email,userName, password, roleid, yearid } = req.body;
   const profilePicture = req.file ? req.file.path : null;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       email,
+      userName,
       password: hashedPassword,
       profilePicture,
       roleid,
@@ -50,10 +51,11 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ userId: user.userid }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userid: user.userid }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({
       message: 'Login successful',
+      UserName: user.userName,
       email: user.email,
       profilePicture: user.profilePicture,
       token
@@ -68,7 +70,7 @@ const logout = (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { email, newEmail, newPassword, newRoleId, newYearId } = req.body;
+  const { email, newEmail,newUserName , newPassword, newRoleId, newYearId } = req.body;
   const newProfilePicture = req.file ? req.file.path : null;
 
   try {
@@ -81,6 +83,9 @@ const updateUser = async (req, res) => {
 
     if (newEmail) {
       user.email = newEmail;
+    }  
+     if (newUserName) {
+      user.userName = newUserName;
     }
     if (newPassword) {
       user.password = await bcrypt.hash(newPassword, 10);
@@ -115,4 +120,31 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout, updateUser, upload };
+// Obtener todos los usuarios (para administración)
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['userid', 'email', 'profilePicture']  
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Obtener los datos del usuario logueado
+const getLoggedUser = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.userid, {
+      attributes: ['userid', 'email', 'profilePicture']  
+    });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { register, login, logout, updateUser, upload, getAllUsers, getLoggedUser };
