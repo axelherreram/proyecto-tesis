@@ -1,6 +1,5 @@
 const Role = require("../models/Role");
 const Year = require("../models/year");
-const TesisAssig = require("../models/tesisAssig");
 const Task = require("../models/task");
 const File = require("../models/file");
 const comment = require("../models/comment");
@@ -8,9 +7,6 @@ const comment = require("../models/comment");
 // Inicializar tables in la BD
 const initializetables = async () => {
   try {
-    await Year.findOrCreate({ where: { year: "2021" } });
-    await Year.findOrCreate({ where: { year: "2022" } });
-    await Year.findOrCreate({ where: { year: "2023" } });
     await Year.findOrCreate({ where: { year: "2024" } });
     await Year.findOrCreate({ where: { year: "2025" } });
 
