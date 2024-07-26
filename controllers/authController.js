@@ -1,9 +1,12 @@
-const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const path = require('path');
 const fs = require('fs');
+
+const User = require('../models/User');
+const Role = require('../models/role');
+const Year = require('../models/year');
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -37,11 +40,18 @@ const register = async (req, res) => {
   }
 };
 
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ 
+      where: { email },
+      include: [
+        { model: Role, attributes: ['role'] },
+        { model: Year, attributes: ['year'] }
+      ]
+    });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -50,12 +60,15 @@ const login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid password' });
     }
-
+ 
     const token = jwt.sign({ userId: user.userid, roleid: user.roleid }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({
       message: 'Login successful',
       email: user.email,
+      userName: user.userName,
+      role: user.Role ? user.Role.role : null, 
+      year: user.Year ? user.Year.year : null, 
       profilePicture: user.profilePicture,
       token
     });
@@ -63,6 +76,9 @@ const login = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
 const logout = (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 };

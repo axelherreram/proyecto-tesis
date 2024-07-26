@@ -1,8 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Role = require('./Role');
+const Role = require('./role');
 const Year = require('./year');
-
 
 const User = sequelize.define('User', {
   userid: {
@@ -43,18 +42,16 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(200),
     allowNull: true
   },
-
 }, {
   tableName: 'users'
 });
 
-// Relacion con la tabla de roles
+// Relación con la tabla de roles
 Role.hasMany(User, { foreignKey: 'roleid' });
 User.belongsTo(Role, { foreignKey: 'roleid' });
 
-// relacion con la tabla de años
+// Relación con la tabla de años
 Year.hasMany(User, { foreignKey: 'yearid' });
-User.belongsTo(Role, { foreignKey: 'yearid' });
-
+User.belongsTo(Year, { foreignKey: 'yearid' });
 
 module.exports = User;
