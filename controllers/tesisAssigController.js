@@ -60,3 +60,16 @@ exports.deleteTesisAssig = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.getTesisAssigsByUserId = async (req, res) => {
+  try {
+    const tesisAssigs = await TesisAssig.findAll({ where: { userid: req.params.userid } });
+    if (!tesisAssigs.length) {
+      return res.status(404).json({ error: 'No thesis assignments found for this user' });
+    }
+    res.status(200).json(tesisAssigs);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
