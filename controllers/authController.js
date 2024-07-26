@@ -51,11 +51,10 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ userid: user.userid }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.userid, roleid: user.roleid }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({
       message: 'Login successful',
-      UserName: user.userName,
       email: user.email,
       profilePicture: user.profilePicture,
       token
@@ -64,10 +63,10 @@ const login = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 const logout = (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 };
+
 
 const updateUser = async (req, res) => {
   const { email, newEmail,newUserName , newPassword, newRoleId, newYearId } = req.body;
