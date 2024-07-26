@@ -1,4 +1,4 @@
-const Role = require("../models/Role");
+const Role = require("../models/role");
 const Year = require("../models/year");
 const Task = require("../models/task");
 const File = require("../models/file");

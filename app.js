@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
+
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const initializetables = require('./config/initializetables');
 const tesisAssigRoutes = require('./routes/tesisAssigRoutes');
 const fileRoutes = require('./routes/fileRoutes');
 const userRoutes = require('./routes/userRoutes');
+
 const cors = require('cors');
 
 require('dotenv').config();
@@ -27,7 +29,7 @@ app.use('/api', fileRoutes);
 app.use('/api', userRoutes);
   
 
-sequelize.sync({ alter: true,  force: false}) // , force: true  eliminar las tablas si existen
+sequelize.sync({ alter: true}) // , force: true  eliminar las tablas si existen
   .then(async () => {
     console.log('Base de datos sincronizada');
     await initializetables(); 
