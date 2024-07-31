@@ -22,14 +22,14 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
-app.use('/auth', authRoutes);
+app.use('/auth', authRoutes); 
 app.use('/api', taskRoutes);
 app.use('/api', tesisAssigRoutes);
 app.use('/api', fileRoutes);
 app.use('/api', userRoutes);
-  
-
-sequelize.sync({ alter: true}) // , force: true  eliminar las tablas si existen
+   
+   
+sequelize.sync({ alter: false, force: false  }) // , force: true  eliminar las tablas si existen
   .then(async () => {
     console.log('Base de datos sincronizada');
     await initializetables(); 
