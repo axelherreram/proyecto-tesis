@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-// const tesisAssigController = require('../controllers/tesisAssigController');
 const { getAllTesisAssigs, getTesisAssigById, createTesisAssig, updateTesisAssig, deleteTesisAssig, getTesisAssigsByUserId } = require('../controllers/tesisAssigController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-router.get('/tesisAssigs', getAllTesisAssigs);
-router.get('/tesisAssigs/:id', getTesisAssigById);
-router.post('/tesisAssigs', createTesisAssig);
-router.put('/tesisAssigs/:id', updateTesisAssig);
-router.delete('/tesisAssigs/:id', deleteTesisAssig);
+router.get('/tesisAssigs', authMiddleware, getAllTesisAssigs);
+router.get('/tesisAssigs/:id', authMiddleware, getTesisAssigById);
+router.post('/tesisAssigs', authMiddleware,createTesisAssig);
+router.put('/tesisAssigs/:id',authMiddleware ,updateTesisAssig);
+router.delete('/tesisAssigs/:id',authMiddleware ,  deleteTesisAssig);
 
-router.get('/tesisByUser/:userid', getTesisAssigsByUserId);
+router.get('/tesisByUser/:userid',authMiddleware ,getTesisAssigsByUserId);
 
 module.exports = router;
