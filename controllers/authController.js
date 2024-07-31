@@ -61,7 +61,7 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
  
-    const token = jwt.sign({ userId: user.userid, roleid: user.roleid }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userid: user.userid, roleid: user.roleid }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({
       message: 'Login successful',
@@ -139,7 +139,7 @@ const updateUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ['userid', 'email', 'profilePicture']  
+      attributes: ['userid', 'email', 'profilePicture', 'userName'],  
     });
     res.status(200).json(users);
   } catch (error) {
@@ -151,7 +151,7 @@ const getAllUsers = async (req, res) => {
 const getLoggedUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.userid, {
-      attributes: ['userid', 'email', 'profilePicture']  
+      attributes: ['userid', 'email', 'profilePicture', 'userName'],  
     });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
