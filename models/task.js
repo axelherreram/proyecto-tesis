@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const TesisAssig = require("./TesisAssig");
+const TesisAssig = require("./tesisAssig");
 
 const Task = sequelize.define("Task", {
   taskid: {
@@ -34,23 +34,12 @@ const Task = sequelize.define("Task", {
   },
   weight: {
     type: DataTypes.DECIMAL(4, 2),
-    allowNull: false,
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
+    allowNull: true,
+  }
 }, {
   tableName: "task",
 });
 
-TesisAssig.hasMany(Task, { foreignKey: 'tesisid' });
-Task.belongsTo(TesisAssig, { foreignKey: 'tesisid' });
-
 module.exports = Task;
+
+
